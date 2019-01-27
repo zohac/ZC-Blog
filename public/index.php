@@ -1,8 +1,11 @@
 <?php
 
-use ZCBlog\http\Test;
+use zcblog\http\Uri;
+use zcblog\http\Request;
 
 // We load the autolaoder of Composer
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
-$test = new Test();
+$request = Request::createRequest();
+
+var_dump($request->getHeaders());
