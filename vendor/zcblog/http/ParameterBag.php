@@ -2,10 +2,23 @@
 
 namespace zcblog\http;
 
+/**
+ * ParameterBag is a container for array.
+ */
 class ParameterBag
 {
+    /**
+     * Undocumented variable.
+     *
+     * @var array
+     */
     private $parameter;
 
+    /**
+     * Constructor.
+     *
+     * @param array $parameter
+     */
     public function __construct(array $parameter)
     {
         $this->parameter = $parameter;

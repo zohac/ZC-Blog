@@ -43,22 +43,42 @@ class Uri implements UriInterface
                 throw new \InvalidArgumentException("Unable to parse URI: $uri");
             }
 
-            $this->initialize($parts);
+            foreach ($parts as $key => $value) {
+                $this->$key = (null !== $value) ? $value : '';
+            }
         }
     }
 
-    public function initialize(array $parts)
+    /**
+     * URL structure :
+     *      scheme://username:password@domain:port/path?query_string#fragment_id.
+     *
+     * @return string
+     */
+    public function getUrl(): string
     {
-        $this->scheme = (null !== $parts['scheme']) ? $parts['scheme'] : '';
-        $this->host = (null !== $parts['host']) ? $parts['host'] : '';
-        $this->port = (null !== $parts['port']) ? $parts['port'] : '';
-        $this->path = (null !== $parts['path']) ? $parts['path'] : '';
-        $this->query = (null !== $parts['query']) ? $parts['query'] : '';
-    }
+        $url = '';
 
-    public function getUrl()
-    {
-        return $this->scheme.'://'.$this->host.':'.$this->port.$this->path.'?'.$this->query;
+        if ('' !== $this->scheme) {
+            $url .= $this->scheme.':';
+        }
+        if ('' !== $this->host) {
+            $url .= '//'.$this->host;
+        }
+        if ('' !== $this->port) {
+            $url .= ':'.$this->port;
+        }
+        if ('' !== $this->path) {
+            $url .= $this->path;
+        }
+        if ('' !== $this->query) {
+            $url .= '?'.$this->query;
+        }
+        if ('' !== $this->fragment) {
+            $url .= '#'.$this->fragment;
+        }
+
+        return $url;
     }
 
     /**
