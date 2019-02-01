@@ -8,4 +8,4 @@ require __DIR__.'/../vendor/autoload.php';
 
 $request = Request::createRequest();
 
-var_dump($request->getHeaders());
+var_dump($request);
