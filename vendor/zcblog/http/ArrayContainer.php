@@ -3,9 +3,9 @@
 namespace zcblog\http;
 
 /**
- * ParameterBag is a container for array.
+ * ArrayContainer is a container for array.
  */
-class ParameterBag
+class ArrayContainer
 {
     /**
      * Undocumented variable.
