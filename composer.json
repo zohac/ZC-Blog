@@ -13,5 +13,10 @@
             "name": "zohac",
             "email": "fenrir0680@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "zcblog\\": "vendor/zcblog/"
+        }
+    }
 }
