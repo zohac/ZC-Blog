@@ -2,43 +2,83 @@
 
 namespace zcblog\http;
 
-use zcblog\http\ParameterBag;
+use zcblog\http\ArrayContainer;
 
+/**
+ * Request represents an HTTP request.
+ */
 class Request
 {
+    /**
+     * The GET parameters
+     *
+     * @var ArrayContainer
+     */
     private $query;
-    private $request;
-    private $attributes;
+
+    /**
+     * The POST parameters
+     *
+     * @var ArrayContainer
+     */
+    private $post;
+
+    /**
+     * The COOKIE parameters
+     *
+     * @var ArrayContainer
+     */
     private $cookies;
+
+    /**
+     * The FILES parameters
+     *
+     * @var ArrayContainer
+     */
     private $files;
+
+    /**
+     * The SERVER parameters
+     *
+     * @var ArrayContainer
+     */
     private $server;
+
+    /**
+     * The body of the HTTP Request
+     *
+     * @var string
+     */
     private $body;
+
+    /**
+     * The Uri
+     *
+     * @var Uri
+     */
     private $uri;
 
     /**
      * Constructor.
      *
      * @param array $query      The GET parameters
-     * @param array $request    The POST parameters
-     * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
+     * @param array $post       The POST parameters
      * @param array $cookies    The COOKIE parameters
      * @param array $files      The FILES parameters
      * @param array $server     The SERVER parameters
      */
     public function __construct(
         array $query = [],
-        array $request = [],
-        array $attributes = [],
+        array $post = [],
         array $cookies = [],
         array $files = [],
         array $server = []
     ) {
-        $this->request = new ParameterBag($request);
-        $this->query = new ParameterBag($query);
-        $this->attributes = new ParameterBag($attributes);
-        $this->cookies = new ParameterBag($cookies);
+        $this->query = new ArrayContainer($query);
+        $this->post = new ArrayContainer($post);
+        $this->cookies = new ArrayContainer($cookies);
         $this->files = $files;
-        $this->server = new ParameterBag($server);
+        $this->server = new ArrayContainer($server);
         $this->setUri();
     }
 
@@ -49,7 +89,7 @@ class Request
      */
     public static function createRequest(): Request
     {
-        return new static($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
+        return new static($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER);
     }
 
     /**
@@ -104,7 +144,7 @@ class Request
     {
         list($protocol, $version) = \explode('/', $this->server->get('SERVER_PROTOCOL'));
 
-        return $version;
+        return \preg_match('/^1\.[1,0]$/', $version) ? $version : '1.1';
     }
 
     /**
@@ -120,18 +160,18 @@ class Request
     }
 
     /**
-     * Get the value of query
+     * Get the value of query (query = _GET)
      */
-    public function getQuery(): ParameterBag
+    public function getQuery(): ArrayContainer
     {
         return $this->query;
     }
 
     /**
-     * Get the value of request
+     * Get the value of post (post = _POST)
      */
-    public function getRequest(): ParameterBag
+    public function getPost(): ArrayContainer
     {
-        return $this->request;
+        return $this->post;
     }
 }
