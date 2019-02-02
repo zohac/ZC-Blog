@@ -2,57 +2,55 @@
 
 namespace zcblog\http;
 
-use zcblog\http\ArrayContainer;
-
 /**
  * Request represents an HTTP request.
  */
 class Request
 {
     /**
-     * The GET parameters
+     * The GET parameters.
      *
      * @var ArrayContainer
      */
     private $query;
 
     /**
-     * The POST parameters
+     * The POST parameters.
      *
      * @var ArrayContainer
      */
     private $post;
 
     /**
-     * The COOKIE parameters
+     * The COOKIE parameters.
      *
      * @var ArrayContainer
      */
     private $cookies;
 
     /**
-     * The FILES parameters
+     * The FILES parameters.
      *
      * @var ArrayContainer
      */
     private $files;
 
     /**
-     * The SERVER parameters
+     * The SERVER parameters.
      *
      * @var ArrayContainer
      */
     private $server;
 
     /**
-     * The body of the HTTP Request
+     * The body of the HTTP Request.
      *
      * @var string
      */
     private $body;
 
     /**
-     * The Uri
+     * The Uri.
      *
      * @var Uri
      */
@@ -61,11 +59,11 @@ class Request
     /**
      * Constructor.
      *
-     * @param array $query      The GET parameters
-     * @param array $post       The POST parameters
-     * @param array $cookies    The COOKIE parameters
-     * @param array $files      The FILES parameters
-     * @param array $server     The SERVER parameters
+     * @param array $query   The GET parameters
+     * @param array $post    The POST parameters
+     * @param array $cookies The COOKIE parameters
+     * @param array $files   The FILES parameters
+     * @param array $server  The SERVER parameters
      */
     public function __construct(
         array $query = [],
@@ -160,7 +158,7 @@ class Request
     }
 
     /**
-     * Get the value of query (query = _GET)
+     * Get the value of query (query = _GET).
      */
     public function getQuery(): ArrayContainer
     {
@@ -168,7 +166,7 @@ class Request
     }
 
     /**
-     * Get the value of post (post = _POST)
+     * Get the value of post (post = _POST).
      */
     public function getPost(): ArrayContainer
     {

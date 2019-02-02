@@ -1,8 +1,10 @@
 <?php
 
+namespace zcblog\tests\http;
+
 use zcblog\http\Uri;
 use zcblog\http\Request;
-use zcblog\http\ParameterBag;
+use zcblog\http\ArrayContainer;
 use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase
@@ -43,6 +45,14 @@ class RequestTest extends TestCase
             'SCRIPT_NAME' => '/index.php',
             'PHP_SELF' => '/index.php',
         ];
+
+        $this->get = [
+            'test_GET' => 'Get value',
+        ];
+
+        $this->post = [
+            'test_POST' => 'Post value',
+        ];
     }
 
     public function testRequest()
@@ -53,15 +63,23 @@ class RequestTest extends TestCase
         $request = new Request(
             $this->get,
             $this->post,
-            $this->attributes,
             $this->cookies,
             $this->files,
             $this->server
         );
+
         $this->assertInstanceOf(Uri::class, $request->getUri());
         $this->assertEquals($request->getMethod(), 'GET');
         $this->assertRegExp('/^1\.[1,0]$/', $request->getProtocolVersion());
-        $this->assertInstanceOf(ParameterBag::class, $request->getQuery());
-        $this->assertInstanceOf(ParameterBag::class, $request->getRequest());
+
+        $this->assertInstanceOf(ArrayContainer::class, $request->getQuery());
+        $this->assertEquals($request->getQuery()->get('test_GET'), 'Get value');
+        $this->assertNull($request->getQuery()->get('KeysThatDoNotExist'));
+
+        $this->assertInstanceOf(ArrayContainer::class, $request->getPost());
+        $this->assertEquals($request->getPost()->get('test_POST'), 'Post value');
+        $this->assertNull($request->getPost()->get('KeysThatDoNotExist'));
+
+        $this->assertEquals($request->getBody(), '');
     }
 }
